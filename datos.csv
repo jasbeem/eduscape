@@ -1,0 +1,64 @@
+Tipo;Pregunta;R1;R2;R3;R4;Tiempo;Correcta;URL Imagen;Categoria;Situación de aprendizaje
+# Tecnología y Digitalización 2º - Dibujo
+quiz;¿Qué operador repite cadenas en Python?;*  ;x;repeat();**;30;1;;Tecnología y Digitalización 2º;Dibujo
+quiz;¿Qué método especial se ejecuta al crear un objeto?;__init__;__start__;constructor;__new__;30;1;;Tecnología y Digitalización 2º;Dibujo
+quiz;¿Qué operador concatena cadenas en Python?;+  ;concat();join;.;30;1;;Tecnología y Digitalización 2º;Dibujo
+quiz;¿Qué operador verifica "mayor o igual que" en Python?>;>=;= >;mayor_igual;ge();30;1;;Tecnología y Digitalización 2º;Dibujo
+quiz;¿Cómo se escribe un comentario de una línea en Python?;#;//;--;/*;20;1;;Tecnología y Digitalización 2º;Dibujo
+quiz;¿Sobre qué itera normalmente un bucle for en Python?;Secuencias;Solo números;Condiciones booleanas;Solo cadenas;30;1;;Tecnología y Digitalización 2º;Dibujo
+quiz;¿Cómo se definen cadenas de múltiples líneas en Python?;Triples comillas;Comillas simples con \n;Corchetes con saltos;Paréntesis con comas;30;1;;Tecnología y Digitalización 2º;Dibujo
+quiz;¿Cuál es una característica principal de Python?;Interpretado;Compilado estáticamente;Solo soporta POO;Exclusivo de Windows;30;1;;Tecnología y Digitalización 2º;Dibujo
+quiz;¿Qué es una clase en POO según el material?;Plantilla;Instancia concreta;Variable global;Función especial;30;1;;Tecnología y Digitalización 2º;Dibujo
+quiz;¿Qué función convierte cualquier valor a cadena?;str();string();toString();to_str();30;1;;Tecnología y Digitalización 2º;Dibujo
+quiz;¿Qué palabra clave define una función en Python?;def;function;func;define;20;1;;Tecnología y Digitalización 2º;Dibujo
+quiz;¿Qué estructura de datos almacena pares clave-valor?;Diccionario;Lista;Tupla;Conjunto;30;1;;Tecnología y Digitalización 2º;Dibujo
+quiz;¿Qué operador realiza división entera en Python?;//;/;div;%;30;1;;Tecnología y Digitalización 2º;Dibujo
+quiz;¿Qué significa elif en Python?;Else if;Else en if;End if;If else;30;1;;Tecnología y Digitalización 2º;Dibujo
+quiz;¿Qué tipo de dato devuelve input()?;Cadena;Entero;Depende;Lista de caracteres;30;1;;Tecnología y Digitalización 2º;Dibujo
+quiz;¿Qué hace range(5) en un bucle for?;0 a 4;1 a 5;0 a 5;5 números aleatorios;30;1;;Tecnología y Digitalización 2º;Dibujo
+quiz;¿Qué permite la herencia en POO?;Crear clases basadas en otras;Ocultar datos internos;Ejecutar múltiples métodos;Convertir objetos en clases;30;1;;Tecnología y Digitalización 2º;Dibujo
+quiz;¿Cómo se describen las listas en Python?;Ordenadas y modificables;Inmutables y ordenadas;No ordenadas y modificables;Solo almacenan números;30;1;;Tecnología y Digitalización 2º;Dibujo
+quiz;¿Qué operador verifica desigualdad en Python?;!=;=!;not=;ne();30;1;;Tecnología y Digitalización 2º;Dibujo
+quiz;¿Qué operador se usa para exponentes en Python?;**;^;exp();//;30;1;;Tecnología y Digitalización 2º;Dibujo
+# Tecnología y Digitalización 2º - Proceso tecnológico
+quiz;¿Qué operador repite cadenas en Python?;*  ;x;repeat();**;30;1;;Tecnología y Digitalización 2º;Proceso tecnológico
+quiz;¿Qué método especial se ejecuta al crear un objeto?;__init__;__start__;constructor;__new__;30;1;;Tecnología y Digitalización 2º;Proceso tecnológico
+quiz;¿Qué operador concatena cadenas en Python?;+  ;concat();join;.;30;1;;Tecnología y Digitalización 2º;Proceso tecnológico
+quiz;¿Qué operador verifica "mayor o igual que" en Python?>;>=;= >;mayor_igual;ge();30;1;;Tecnología y Digitalización 2º;Proceso tecnológico
+quiz;¿Cómo se escribe un comentario de una línea en Python?;#;//;--;/*;20;1;;Tecnología y Digitalización 2º;Proceso tecnológico
+quiz;¿Sobre qué itera normalmente un bucle for en Python?;Secuencias;Solo números;Condiciones booleanas;Solo cadenas;30;1;;Tecnología y Digitalización 2º;Proceso tecnológico
+quiz;¿Cómo se definen cadenas de múltiples líneas en Python?;Triples comillas;Comillas simples con \n;Corchetes con saltos;Paréntesis con comas;30;1;;Tecnología y Digitalización 2º;Proceso tecnológico
+quiz;¿Cuál es una característica principal de Python?;Interpretado;Compilado estáticamente;Solo soporta POO;Exclusivo de Windows;30;1;;Tecnología y Digitalización 2º;Proceso tecnológico
+quiz;¿Qué es una clase en POO según el material?;Plantilla;Instancia concreta;Variable global;Función especial;30;1;;Tecnología y Digitalización 2º;Proceso tecnológico
+quiz;¿Qué función convierte cualquier valor a cadena?;str();string();toString();to_str();30;1;;Tecnología y Digitalización 2º;Proceso tecnológico
+quiz;¿Qué palabra clave define una función en Python?;def;function;func;define;20;1;;Tecnología y Digitalización 2º;Proceso tecnológico
+quiz;¿Qué estructura de datos almacena pares clave-valor?;Diccionario;Lista;Tupla;Conjunto;30;1;;Tecnología y Digitalización 2º;Proceso tecnológico
+quiz;¿Qué operador realiza división entera en Python?;//;/;div;%;30;1;;Tecnología y Digitalización 2º;Proceso tecnológico
+quiz;¿Qué significa elif en Python?;Else if;Else en if;End if;If else;30;1;;Tecnología y Digitalización 2º;Proceso tecnológico
+quiz;¿Qué tipo de dato devuelve input()?;Cadena;Entero;Depende;Lista de caracteres;30;1;;Tecnología y Digitalización 2º;Proceso tecnológico
+quiz;¿Qué hace range(5) en un bucle for?;0 a 4;1 a 5;0 a 5;5 números aleatorios;30;1;;Tecnología y Digitalización 2º;Proceso tecnológico
+quiz;¿Qué permite la herencia en POO?;Crear clases basadas en otras;Ocultar datos internos;Ejecutar múltiples métodos;Convertir objetos en clases;30;1;;Tecnología y Digitalización 2º;Proceso tecnológico
+quiz;¿Cómo se describen las listas en Python?;Ordenadas y modificables;Inmutables y ordenadas;No ordenadas y modificables;Solo almacenan números;30;1;;Tecnología y Digitalización 2º;Proceso tecnológico
+quiz;¿Qué operador verifica desigualdad en Python?;!=;=!;not=;ne();30;1;;Tecnología y Digitalización 2º;Proceso tecnológico
+quiz;¿Qué operador se usa para exponentes en Python?;**;^;exp();//;30;1;;Tecnología y Digitalización 2º;Proceso tecnológico
+# Tecnología y Digitalización 4º - Los Plásticos
+quiz;¿Qué operador repite cadenas en Python?;*  ;x;repeat();**;30;1;;Tecnología y Digitalización 4º;Los Plásticos
+quiz;¿Qué método especial se ejecuta al crear un objeto?;__init__;__start__;constructor;__new__;30;1;;Tecnología y Digitalización 4º;Los Plásticos
+quiz;¿Qué operador concatena cadenas en Python?;+  ;concat();join;.;30;1;;Tecnología y Digitalización 4º;Los Plásticos
+quiz;¿Qué operador verifica "mayor o igual que" en Python?>;>=;= >;mayor_igual;ge();30;1;;Tecnología y Digitalización 4º;Los Plásticos
+quiz;¿Cómo se escribe un comentario de una línea en Python?;#;//;--;/*;20;1;;Tecnología y Digitalización 4º;Los Plásticos
+quiz;¿Sobre qué itera normalmente un bucle for en Python?;Secuencias;Solo números;Condiciones booleanas;Solo cadenas;30;1;;Tecnología y Digitalización 4º;Los Plásticos
+quiz;¿Cómo se definen cadenas de múltiples líneas en Python?;Triples comillas;Comillas simples con \n;Corchetes con saltos;Paréntesis con comas;30;1;;Tecnología y Digitalización 4º;Los Plásticos
+quiz;¿Cuál es una característica principal de Python?;Interpretado;Compilado estáticamente;Solo soporta POO;Exclusivo de Windows;30;1;;Tecnología y Digitalización 4º;Los Plásticos
+quiz;¿Qué es una clase en POO según el material?;Plantilla;Instancia concreta;Variable global;Función especial;30;1;;Tecnología y Digitalización 4º;Los Plásticos
+quiz;¿Qué función convierte cualquier valor a cadena?;str();string();toString();to_str();30;1;;Tecnología y Digitalización 4º;Los Plásticos
+quiz;¿Qué palabra clave define una función en Python?;def;function;func;define;20;1;;Tecnología y Digitalización 4º;Los Plásticos
+quiz;¿Qué estructura de datos almacena pares clave-valor?;Diccionario;Lista;Tupla;Conjunto;30;1;;Tecnología y Digitalización 4º;Los Plásticos
+quiz;¿Qué operador realiza división entera en Python?;//;/;div;%;30;1;;Tecnología y Digitalización 4º;Los Plásticos
+quiz;¿Qué significa elif en Python?;Else if;Else en if;End if;If else;30;1;;Tecnología y Digitalización 4º;Los Plásticos
+quiz;¿Qué tipo de dato devuelve input()?;Cadena;Entero;Depende;Lista de caracteres;30;1;;Tecnología y Digitalización 4º;Los Plásticos
+quiz;¿Qué hace range(5) en un bucle for?;0 a 4;1 a 5;0 a 5;5 números aleatorios;30;1;;Tecnología y Digitalización 4º;Los Plásticos
+quiz;¿Qué permite la herencia en POO?;Crear clases basadas en otras;Ocultar datos internos;Ejecutar múltiples métodos;Convertir objetos en clases;30;1;;Tecnología y Digitalización 4º;Los Plásticos
+quiz;¿Cómo se describen las listas en Python?;Ordenadas y modificables;Inmutables y ordenadas;No ordenadas y modificables;Solo almacenan números;30;1;;Tecnología y Digitalización 4º;Los Plásticos
+quiz;¿Qué operador verifica desigualdad en Python?;!=;=!;not=;ne();30;1;;Tecnología y Digitalización 4º;Los Plásticos
+quiz;¿Qué operador se usa para exponentes en Python?;**;^;exp();//;30;1;;Tecnología y Digitalización 4º;Los Plásticos
