@@ -7,8 +7,8 @@
     <!-- Cyberpunk Terminal Favicon -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' fill='%23050505'/><text x='50%' y='55%' dominant-baseline='middle' text-anchor='middle' font-family='monospace' font-weight='bold' font-size='12' fill='%2300ff41'>&gt;_</text></svg>">
     
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Tailwind CSS (Local) -->
+    <script src="libs/tailwind/tailwind.js"></script>
     
     <!-- Babel Standalone (Required for JSX/TSX in browser) -->
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -90,6 +90,24 @@
         box-shadow: 0 0 5px #eab308, inset 0 0 5px #eab308;
       }
 
+      /* Audio Equalizer Animation */
+      @keyframes equalize {
+        0% { height: 20%; }
+        50% { height: 100%; }
+        100% { height: 20%; }
+      }
+      .eq-bar {
+        width: 4px;
+        background-color: #00ff41;
+        margin-right: 1px;
+        animation: equalize 1s infinite ease-in-out;
+      }
+      .eq-bar:nth-child(1) { animation-duration: 0.8s; }
+      .eq-bar:nth-child(2) { animation-duration: 1.1s; }
+      .eq-bar:nth-child(3) { animation-duration: 0.9s; }
+      .eq-bar:nth-child(4) { animation-duration: 1.2s; }
+      .eq-paused .eq-bar { animation-play-state: paused; height: 10%; background-color: #004411; }
+
       @keyframes glitch-anim {
         0% { transform: translate(0) }
         20% { transform: translate(-2px, 2px) }
@@ -128,6 +146,7 @@
   }
 }
 </script>
+<link rel="stylesheet" href="/index.css">
 </head>
 <body>
     <div id="root"></div>
@@ -135,7 +154,7 @@
     
     <!-- THE MONOLITHIC APPLICATION SCRIPT -->
     <script type="text/babel" data-type="module">
-        import React, { useState, useEffect } from 'react';
+        import React, { useState, useEffect, useRef } from 'react';
         import { createRoot } from 'react-dom/client';
 
         // ==========================================
@@ -151,12 +170,12 @@
         const APP_ID = getAppId();
 
         const ADMIN_CONFIG = {
-          USERNAME: 'Bedoya',
-          PASSWORD: 'malaga'
+          USERNAME: 'Bedoya'
+          // Password is now handled server-side
         };
 
         // ⚠️ IMPORTANTE: PEGA AQUÍ TU URL DE GOOGLE APPS SCRIPT (WEB APP)
-        const API_URL = "https://script.google.com/macros/s/AKfycbyTjeOsZWVk7Cpzutl81__okr9mdcC8V5qon1ooxTp2hqgwjZPrlhUukn6soDU8Pa4w/exec"; 
+        const API_URL = "https://script.google.com/macros/s/AKfycbyswGNIGw2ut_ONXNohwSeU4LrfINZz1WIiALBrkS2IWa1kS5WNxQUHY-YMwkxacwYB/exec"; 
 
         const AVATAR_LIST = [
           { name: "TIGRE", emoji: "🐯" }, { name: "LOBO", emoji: "🐺" }, { name: "OSO", emoji: "🐻" },
@@ -170,6 +189,23 @@
         ];
 
         const LOCKOUT_DURATION_MS = 10000;
+
+        // Music Playlist
+        const PLAYLIST = [
+            { title: "Background", src: "audio/background.mp3" },
+            { title: "Cyber Theme", src: "audio/cyber.mp3" },
+            { title: "Neural Net", src: "audio/music.mp3" },
+            { title: "Track 01", src: "audio/track1.mp3" },
+            { title: "Track 02", src: "audio/track2.mp3" },
+            { title: "Track 03", src: "audio/track3.mp3" },
+            { title: "Track 04", src: "audio/track4.mp3" },
+            { title: "Track 05", src: "audio/track5.mp3" }
+        ];
+
+        const VICTORY_SOUNDS = [
+            "audio/ganador01.mp3",
+            "audio/ganador02.mp3"
+        ];
 
         // ==========================================
         // SERVICES/CSVSERVICE.TS
@@ -197,26 +233,32 @@
           if (lines.length < 2) return [];
 
           const headers = lines[0].split(';').map(h => h.trim().replace(/^[\uFEFF\u200B]/, ''));
+          
+          // Updated detection logic for new format (Categoría, SdA)
           const categoryKey = headers.find(h => h.toLowerCase() === 'categoria' || h.toLowerCase() === 'categoría');
-          const situationKey = headers.find(h => h.toLowerCase().startsWith('situaci') || h.toLowerCase().startsWith('situación'));
+          const situationKey = headers.find(h => h.toLowerCase() === 'sda' || h.toLowerCase().startsWith('situaci') || h.toLowerCase().startsWith('situación'));
 
           if (!categoryKey || !situationKey) {
-              console.warn("No se encontraron las columnas 'Categoria' o 'Situación' en el CSV");
+              console.warn("No se encontraron las columnas 'Categoría' o 'SdA' en el CSV. Se intentará continuar.");
           }
 
           const result = [];
           
           for (let i = 1; i < lines.length; i++) {
-            if (lines[i].startsWith('Tipo;') || lines[i].includes('Pregunta;R1')) continue;
+            // Updated filtering logic for new format
+            if (lines[i].trim() === '' || lines[i].startsWith('#') || lines[i].includes('Categoría;SdA')) continue;
+
             const currentline = lines[i].split(';');
             const obj = {};
             for (let j = 0; j < headers.length; j++) {
                 obj[headers[j]] = currentline[j]?.trim() || "";
             }
+            
             obj['_INTERNAL_CATEGORY'] = categoryKey ? obj[categoryKey] : "";
             obj['_INTERNAL_SITUATION'] = situationKey ? obj[situationKey] : "";
 
-            if (obj['Pregunta'] && obj['Pregunta'].length > 0) {
+            // Validation: Must have a Question and a valid Category/Situation
+            if (obj['Pregunta'] && obj['Pregunta'].length > 0 && obj['_INTERNAL_CATEGORY'] && obj['_INTERNAL_SITUATION']) {
                  obj['_ID'] = generateStableId(obj['Pregunta'] + obj['_INTERNAL_CATEGORY']);
                  result.push(obj);
             }
@@ -232,7 +274,7 @@
                  if (!response.ok) throw new Error(`ERROR FATAL: No se encuentra datos.csv`);
                  const csvText = await response.text();
                  const data = parseCSV(csvText);
-                 if (!data || data.length === 0) throw new Error("ERROR FATAL: CSV vacío.");
+                 if (!data || data.length === 0) throw new Error("ERROR FATAL: CSV vacío o formato incorrecto.");
                  parsedDataCache = data;
                  return data;
              } catch (err) {
@@ -328,6 +370,101 @@
         // ==========================================
         // COMPONENTS
         // ==========================================
+
+        const AudioPlayer = () => {
+            const [isPlaying, setIsPlaying] = useState(false);
+            const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
+            const [volume, setVolume] = useState(0.3);
+            const [isExpanded, setIsExpanded] = useState(false);
+            const audioRef = useRef(null);
+
+            const currentTrack = PLAYLIST[currentTrackIndex];
+
+            useEffect(() => {
+                if(audioRef.current) {
+                    audioRef.current.volume = volume;
+                    if(isPlaying) {
+                       audioRef.current.play().catch(e => console.log("Autoplay prevented by browser", e));
+                    }
+                }
+            }, [currentTrackIndex, volume, isPlaying]);
+
+            const togglePlay = () => {
+                const audio = audioRef.current;
+                if(!audio) return;
+                if (isPlaying) {
+                    audio.pause();
+                } else {
+                    audio.play();
+                }
+                setIsPlaying(!isPlaying);
+            };
+
+            const nextTrack = () => {
+                setCurrentTrackIndex((prev) => (prev + 1) % PLAYLIST.length);
+            };
+
+            const prevTrack = () => {
+                setCurrentTrackIndex((prev) => (prev - 1 + PLAYLIST.length) % PLAYLIST.length);
+            };
+
+            return (
+                <div 
+                    className={`fixed bottom-4 right-4 z-50 transition-all duration-300 border border-[#00ff41] bg-black/90 backdrop-blur-sm ${isExpanded ? 'w-64 p-4' : 'w-10 h-10 overflow-hidden p-0'} flex flex-col`}
+                    onMouseEnter={() => setIsExpanded(true)}
+                    onMouseLeave={() => setIsExpanded(false)}
+                >
+                    {/* Collapsed State Icon */}
+                    {!isExpanded && (
+                        <div className="w-full h-full flex items-center justify-center text-[#00ff41] animate-pulse cursor-pointer">
+                            ♫
+                        </div>
+                    )}
+
+                    {/* Expanded Content */}
+                    <div className={`transition-opacity duration-300 ${isExpanded ? 'opacity-100' : 'opacity-0'}`}>
+                        <div className="flex justify-between items-end mb-2 border-b border-[#00ff41]/30 pb-2">
+                             <div className="text-[10px] text-[#00f3ff] font-bold tracking-widest">AUDIO_SYS</div>
+                             {/* Visualizer */}
+                             <div className={`flex items-end h-4 space-x-[1px] ${isPlaying ? '' : 'eq-paused'}`}>
+                                 <div className="eq-bar h-2"></div>
+                                 <div className="eq-bar h-4"></div>
+                                 <div className="eq-bar h-3"></div>
+                                 <div className="eq-bar h-1"></div>
+                             </div>
+                        </div>
+
+                        <div className="text-[#00ff41] text-xs font-mono truncate mb-3">
+                            <span className="text-[#00ff41]/50">{currentTrackIndex + 1}.</span> {currentTrack.title}
+                        </div>
+
+                        <div className="flex justify-between items-center mb-3">
+                            <button onClick={prevTrack} className="text-[#00ff41] hover:text-[#00f3ff] text-xs">[PREV]</button>
+                            <button onClick={togglePlay} className="text-[#00f3ff] hover:text-white font-bold text-xs border border-[#00f3ff] px-2 py-1 min-w-[50px]">
+                                {isPlaying ? 'PAUSE' : 'PLAY'}
+                            </button>
+                            <button onClick={nextTrack} className="text-[#00ff41] hover:text-[#00f3ff] text-xs">[NEXT]</button>
+                        </div>
+
+                        <input 
+                            type="range" 
+                            min="0" 
+                            max="1" 
+                            step="0.05" 
+                            value={volume} 
+                            onChange={(e) => setVolume(parseFloat(e.target.value))}
+                            className="w-full h-1 bg-[#00ff41]/20 appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-2 [&::-webkit-slider-thumb]:h-2 [&::-webkit-slider-thumb]:bg-[#00ff41]"
+                        />
+                    </div>
+                    
+                    <audio 
+                        ref={audioRef}
+                        src={currentTrack.src}
+                        onEnded={nextTrack}
+                    />
+                </div>
+            );
+        };
 
         const LockoutScreen = ({ endTime, onUnlock }) => {
           const [timeLeft, setTimeLeft] = useState(0);
@@ -515,6 +652,7 @@
           const [adminFilterCategory, setAdminFilterCategory] = useState('');
           const [adminFilterSituation, setAdminFilterSituation] = useState('');
           const [showSetupInstructions, setShowSetupInstructions] = useState(false);
+          const [authLoading, setAuthLoading] = useState(false);
 
           // Config Edit State
           const [tempConfig, setTempConfig] = useState(null);
@@ -524,6 +662,8 @@
           const [isDbUpdating, setIsDbUpdating] = useState(false);
           const [dbUpdateSuccess, setDbUpdateSuccess] = useState(false);
           const [syncStatus, setSyncStatus] = useState('IDLE');
+          
+          const victoryAudioRef = useRef(null);
 
           // Date formatter (dd-mm-yyyy, hh:mm:ss)
           const formatDate = (dateInput) => {
@@ -559,6 +699,14 @@
             };
             bootSequence();
           }, []);
+          
+          // Victory Sound Effect
+          useEffect(() => {
+              if (currentStep === 'VICTORY' && victoryAudioRef.current) {
+                  victoryAudioRef.current.volume = 0.5;
+                  victoryAudioRef.current.play().catch(e => console.log("Play failed", e));
+              }
+          }, [currentStep]);
 
           // Safe accessors with filters from serverConfig
           const allCategories = appStatus === 'READY' ? getUniqueCategories(serverConfig.disabledCategories) : [];
@@ -638,6 +786,7 @@
             setAdminData([]);
             setAdminTab('REPORTS');
             setShowSetupInstructions(false);
+            setAuthLoading(false);
           };
 
           const formatTime = (ms) => {
@@ -662,7 +811,7 @@
             try {
               if (!isBoot) setSyncStatus('DOWNLOADING');
               const controller = new AbortController();
-              const timeoutId = setTimeout(() => controller.abort(), 5000);
+              const timeoutId = setTimeout(() => controller.abort(), 8000); // 8s timeout for slower script
 
               const response = await fetch(trimmedUrl, { method: 'GET', signal: controller.signal });
               clearTimeout(timeoutId);
@@ -672,8 +821,6 @@
               const result = await response.json();
               if (!isBoot) setSyncStatus('SUCCESS');
 
-              // Handle Multi-App Config
-              // Server returns { config: { "appId1": {...}, "appId2": {...} }, data: [...] }
               if (result.config) {
                  const myConfig = result.config[APP_ID] || { disabledCategories: [], disabledSituations: [], disabledQuestions: [] };
                  setServerConfig(myConfig);
@@ -724,15 +871,12 @@
 
           const handleSaveConfig = async () => {
              setSyncStatus('UPLOADING');
-             
-             // Send config keyed by current App ID
              const payload = {
                 action: 'save_config',
                 appId: APP_ID,
                 config: tempConfig
              };
-             
-             setServerConfig(tempConfig); // Optimistic update
+             setServerConfig(tempConfig); 
 
              if (API_URL) {
                 try {
@@ -747,6 +891,45 @@
                  setSyncStatus('SUCCESS');
              }
              setTimeout(() => setSyncStatus('IDLE'), 2000);
+          };
+          
+          const handleAdminAuthSubmit = async () => {
+             if (!API_URL) {
+                 setAdminError("ERROR: SIN API URL");
+                 return;
+             }
+             setAuthLoading(true);
+             setAdminError("");
+             
+             try {
+                // Must use standard CORS fetch to get response. The Apps Script MUST return valid JSON.
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain' }, // Avoid preflight if possible, GAS is tricky
+                    body: JSON.stringify({
+                        action: 'admin_login',
+                        password: adminPassword
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (result.result === 'success') {
+                     setShowAdminAuth(false);
+                     setAdminError(''); 
+                     setAdminPassword('');
+                     const data = await fetchReports(); 
+                     setAdminData(data);
+                     setCurrentStep('ADMIN_DASHBOARD'); 
+                } else {
+                    setAdminError('CONTRASEÑA INCORRECTA');
+                }
+             } catch (e) {
+                 console.error(e);
+                 setAdminError('ERROR DE CONEXIÓN CON SERVIDOR');
+             } finally {
+                 setAuthLoading(false);
+             }
           };
 
           // --- ADMIN CONFIG UTILS ---
@@ -821,14 +1004,17 @@
 
                   {/* PASO 2 */}
                   <div className="relative border-l-4 border-yellow-500 pl-6">
-                    <h3 className="text-xl text-white font-bold mb-2">FASE 2: INYECCIÓN DE CÓDIGO</h3>
+                    <h3 className="text-xl text-white font-bold mb-2">FASE 2: INYECCIÓN DE CÓDIGO ACTUALIZADA</h3>
                     <p className="mb-4 text-gray-400">
                         En tu Google Sheet, ve al menú: <strong className="text-white">Extensiones &gt; Apps Script</strong>.
-                        Borra todo el código que aparezca y pega el siguiente bloque:
+                        Borra todo y pega esto. <strong className="text-red-500">Configura tu contraseña en la primera línea.</strong>
                     </p>
                     <div className="relative group">
                         <div className="absolute top-0 right-0 bg-yellow-500 text-black px-2 py-1 text-xs font-bold cursor-pointer hover:bg-white" onClick={() => { navigator.clipboard.writeText(document.getElementById('code-block').value); alert("Código copiado al portapapeles"); }}>COPIAR CÓDIGO</div>
                         <textarea id="code-block" readOnly className="w-full h-80 bg-[#0a0a0a] border border-yellow-500/30 text-green-500 p-4 font-mono text-xs focus:outline-none custom-scrollbar selection:bg-yellow-500 selection:text-black leading-relaxed" onClick={(e) => e.target.select()}>{`
+// CONFIGURACIÓN
+const ADMIN_PASSWORD = "malaga"; // <--- CAMBIA ESTO POR TU CONTRASEÑA
+
 function doGet(e) {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   
@@ -841,7 +1027,6 @@ function doGet(e) {
   var dataValues = sheetData.getDataRange().getValues();
   var rows = dataValues.slice(1);
   var result = rows.map(function(row) {
-    // Mapeo seguro de columnas
     return {
       date: row[0], 
       username: row[1], 
@@ -863,7 +1048,6 @@ function doGet(e) {
      }
   }
   
-  // Respuesta JSON para el Frontend
   return ContentService.createTextOutput(JSON.stringify({
     data: result,
     config: allConfigs
@@ -872,11 +1056,18 @@ function doGet(e) {
 
 function doPost(e) {
   var lock = LockService.getScriptLock();
-  lock.tryLock(10000); // Evitar colisiones de escritura
+  lock.tryLock(10000);
   
   try {
     var ss = SpreadsheetApp.getActiveSpreadsheet();
     var payload = JSON.parse(e.postData.contents);
+    
+    // --- AUTENTICACIÓN ADMIN ---
+    if (payload.action === 'admin_login') {
+       var result = (payload.password === ADMIN_PASSWORD) ? "success" : "error";
+       return ContentService.createTextOutput(JSON.stringify({ result: result }))
+              .setMimeType(ContentService.MimeType.JSON);
+    }
     
     if (payload.action === 'save_config') {
        // --- GUARDAR CONFIGURACIÓN ---
@@ -889,12 +1080,11 @@ function doPost(e) {
           try { currentData = JSON.parse(cellVal); } catch(e) {}
        }
        
-       // Actualizar solo la App ID específica
        var appId = payload.appId || 'default';
        currentData[appId] = payload.config;
        
        sheetConfig.getRange("A1").setValue(JSON.stringify(currentData));
-       return ContentService.createTextOutput("Config Saved for " + appId);
+       return ContentService.createTextOutput("Config Saved");
        
     } else {
        // --- GUARDAR REGISTRO DE ALUMNO ---
@@ -933,7 +1123,7 @@ function doPost(e) {
                         <li>Haz clic en el icono de engranaje (⚙️) junto a "Seleccionar tipo" y elige <strong className="text-yellow-400">Aplicación web</strong>.</li>
                         <li>Rellena el formulario así:
                             <ul className="ml-8 mt-2 space-y-1 text-gray-400">
-                                <li><strong>Descripción:</strong> v1 (o lo que quieras).</li>
+                                <li><strong>Descripción:</strong> v2 (o lo que quieras).</li>
                                 <li><strong>Ejecutar como:</strong> <span className="text-green-400">Yo (tu email)</span>.</li>
                                 <li><strong>Quién tiene acceso:</strong> <span className="text-red-500 font-bold border-b border-red-500">Cualquier persona (Anyone)</span>.</li>
                             </ul>
@@ -1145,7 +1335,7 @@ function doPost(e) {
             <div className="w-full max-w-4xl border border-[#00ff41] bg-black/90 p-8 shadow relative animate-fade-in text-center">
               <div className="absolute top-2 left-2 text-[10px] text-gray-600 font-mono">SESIÓN ID: {APP_ID}</div>
               <h1 className="text-4xl md:text-6xl font-bold mb-2 glow-text tracking-tighter text-[#00ff41]">HACKEAR EL <span className="text-[#00f3ff]">SISTEMA</span></h1>
-              <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && username && handleLoginSubmit()} className="w-full max-w-md bg-black border border-[#00ff41] p-3 text-white text-center text-xl mb-4 focus:outline-none focus:shadow-[0_0_10px_#00ff41]" placeholder="NOMBRE DEL AGENTE" />
+              <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && username && handleLoginSubmit()} className="w-full max-w-md bg-black border border-[#00ff41] p-3 text-white text-center text-xl mb-4 focus:outline-none focus:shadow-[0_0_10px_#00ff41]" placeholder="INTRODUCE TU NOMBRE" />
               <button disabled={!username} onClick={handleLoginSubmit} className="w-full max-w-md py-3 bg-[#00ff41]/20 border border-[#00ff41] text-[#00ff41] hover:bg-[#00ff41] hover:text-black font-bold transition-all disabled:opacity-30">INICIAR SESIÓN >></button>
             </div>
           );
@@ -1191,18 +1381,14 @@ function doPost(e) {
           );
 
           const handleLoginSubmit = () => { if (username.trim() === ADMIN_CONFIG.USERNAME) { setShowAdminAuth(true); return; } setCurrentStep('AVATAR'); };
-          const handleAdminAuthSubmit = async () => { 
-            if (adminPassword === ADMIN_CONFIG.PASSWORD) { 
-                setShowAdminAuth(false); setAdminError(''); 
-                await fetchReports(); 
-                setAdminData(await fetchReports());
-                setCurrentStep('ADMIN_DASHBOARD'); 
-            } else { setAdminError('ACCESO DENEGADO'); setAdminPassword(''); } 
-          };
 
           return (
             <>
               <BackgroundEffect />
+              
+              {/* Persistent Audio Player */}
+              <AudioPlayer />
+              
               {gameState.status === 'LOCKED' && gameState.lockoutEndTime && <LockoutScreen endTime={gameState.lockoutEndTime} onUnlock={handleUnlock} />}
               {showAdminAuth && (
                  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4">
@@ -1211,7 +1397,9 @@ function doPost(e) {
                       <h2 className="text-2xl text-red-500 font-bold mb-6">AUTENTICACIÓN ROOT</h2>
                       <input type="password" value={adminPassword} onChange={(e) => setAdminPassword(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && handleAdminAuthSubmit()} className="w-full bg-black border border-red-500 p-3 text-red-500 text-center mb-4 focus:outline-none" placeholder="PASSWORD" />
                       {adminError && <div className="text-red-500 mb-4">{adminError}</div>}
-                      <button onClick={handleAdminAuthSubmit} className="w-full py-3 bg-red-900/20 border border-red-500 text-red-500 hover:bg-red-500 hover:text-black font-bold">ACCEDER</button>
+                      <button onClick={handleAdminAuthSubmit} disabled={authLoading} className="w-full py-3 bg-red-900/20 border border-red-500 text-red-500 hover:bg-red-500 hover:text-black font-bold disabled:opacity-50">
+                        {authLoading ? "VERIFICANDO..." : "ACCEDER"}
+                      </button>
                    </div>
                  </div>
               )}
@@ -1229,6 +1417,9 @@ function doPost(e) {
               {gameState.status === 'LOCKED' && currentStep === 'GAME' && <div className="filter blur-sm pointer-events-none fixed inset-0 z-0"><GameInterface gameState={gameState} onSectorSolved={()=>{}} onMistake={()=>{}} onVictory={()=>{}} /></div>}
               {currentStep === 'VICTORY' && (
                   <div className="min-h-screen flex flex-col items-center justify-center p-4 text-center z-10 relative">
+                    {/* Victory Sound Effect Element */}
+                    <audio ref={victoryAudioRef} src={VICTORY_SOUNDS[0]} />
+                    
                     <h1 className="text-5xl md:text-7xl text-[#00ff41] font-bold glow-text mb-8">¡SISTEMA VULNERADO!</h1>
                     <div className="w-full max-w-2xl bg-black border-2 border-[#00ff41] p-8 mb-8 relative shadow-[0_0_30px_rgba(0,255,65,0.1)]">
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 text-left mt-4">
@@ -1252,7 +1443,14 @@ function doPost(e) {
                         </div>
                       )}
                     </div>
-                    {dbUpdateSuccess && <button onClick={handleLogout} className="px-8 py-3 border border-[#00f3ff] text-[#00f3ff] font-bold text-xl hover:bg-[#00f3ff] hover:text-black transition-all">SALIR</button>}
+                    {dbUpdateSuccess && (
+                        <div className="flex flex-col gap-4 mt-6">
+                            <div className="text-[#00ff41] text-sm animate-pulse">REGISTRO COMPLETADO CORRECTAMENTE</div>
+                            <button onClick={handleLogout} className="px-8 py-3 border-2 border-[#00f3ff] text-[#00f3ff] font-bold text-xl hover:bg-[#00f3ff] hover:text-black transition-all uppercase tracking-widest glow-border">
+                                VOLVER A JUGAR
+                            </button>
+                        </div>
+                    )}
                   </div>
               )}
             </>
@@ -1262,5 +1460,6 @@ function doPost(e) {
         const root = createRoot(document.getElementById('root'));
         root.render(<App />);
     </script>
+<script type="module" src="/index.tsx"></script>
 </body>
 </html>
