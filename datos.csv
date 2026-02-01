@@ -190,7 +190,7 @@ Programación y Computación;Base de datos;quiz;En el diseño de tablas, ¿qué 
 Programación y Computación;Base de datos;quiz;¿Qué característica tienen los informes?;Ejecutan programas;Datos estáticos;Crean tablas nuevas;Modifican datos en tiempo real;30;2;
 Programación y Computación;Base de datos;quiz;¿Qué acción realiza el comando SQL UPDATE?;Crea nuevas tablas;Modifica datos;Selecciona registros;Elimina bases de datos;30;2;
 Programación y Computación;Base de datos;quiz;¿Cuál es la responsabilidad principal del diseñador de bases de datos?;Escribir código de aplicación;Usar formularios para entrada;Definir estructura y relaciones;Realizar copias de seguridad diarias;30;3;
-Programación y Computación;Base de datos;quiz;¿Cómo se describe una relación "uno a uno"?;Muchos registros se asocian con muchos;Un registro se asocia con uno solo;No hay asociación entre registros;Un registro tiene muchos relacionados;30;2;
+Programación y Computación;Base de datos;quiz;¿Cómo se describe una relación 'uno a uno'?;Muchos registros se asocian con muchos;Un registro se asocia con uno solo;No hay asociación entre registros;Un registro tiene muchos relacionados;30;2;
 Programación y Computación;Base de datos;quiz;En la fase de diseño de una base de datos, ¿qué se hace primero?;Estructurar información;Implementar en disco;Crear formularios;Escribir código SQL;30;1;
 Programación y Computación;Base de datos;quiz;¿Para qué se utilizan principalmente las consultas en una base de datos?;Para formatear el disco;Para preguntar a la BD;Para diseñar tablas;Para instalar el SGBD;30;2;
 Programación y Computación;Base de datos;quiz;¿Cuál es un ejemplo de SGBD propietario?;OpenOffice Base;PostgreSQL;MySQL;Oracle;30;4;
