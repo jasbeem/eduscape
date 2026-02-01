@@ -164,7 +164,7 @@ Programación y Computación;Base de datos;quiz;¿Qué hace el comando SQL SELEC
 Programación y Computación;Base de datos;quiz;¿Qué componentes básicos forman una tabla en el modelo relacional?;Páginas y capítulos;Bytes y bits;Filas y columnas;Nodos y ramas;30;3;
 Programación y Computación;Base de datos;quiz;¿Qué se hace en la fase de creación de una base de datos?;Definir tablas y tipos;Reunirse con usuarios;Comprar servidores;Entrenar usuarios finales;30;1;
 Programación y Computación;Base de datos;quiz;¿Qué representa un atributo en una base de datos?;Propiedad de una entidad;Usuario administrador;Relación entre tablas;Tipo de consulta;30;1;
-Programación y Computación;Base de datos;quiz;¿Qué requiere una relación "muchos a muchos"?;Duplicar todos los datos;No requiere nada especial;Eliminar una de las tablas;Tabla intermedia;30;4;
+Programación y Computación;Base de datos;quiz;¿Qué requiere una relación 'muchos a muchos'?;Duplicar todos los datos;No requiere nada especial;Eliminar una de las tablas;Tabla intermedia;30;4;
 Programación y Computación;Base de datos;quiz;¿Cuál es el propósito principal de los formularios?;Almacenar datos permanentemente;Ejecutar programas externos;Reemplazar el sistema operativo;Facilitar interacción usuario;30;4;
 Programación y Computación;Base de datos;quiz;¿Qué se hace en la fase de diseño lógico?;Adaptar al modelo del SGBD;Instalar el sistema operativo;Se compra el hardware necesario;Diseñar la interfaz de usuario;30;1;
 Programación y Computación;Base de datos;quiz;En una tabla, ¿qué representa un campo o columna?;Una consulta compleja;Un usuario del sistema;Un informe completo;Categoría de dato;30;4;
