@@ -7,21 +7,21 @@
     <!-- Cyberpunk Terminal Favicon -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' fill='%23050505'/><text x='50%' y='55%' dominant-baseline='middle' text-anchor='middle' font-family='monospace' font-weight='bold' font-size='12' fill='%2300ff41'>&gt;_</text></svg>">
     
+    <script>
+      // Defensive shim for process.env - Must be before other scripts
+      window.process = window.process || { env: {} };
+    </script>
+
     <!-- Tailwind CSS (Local) -->
     <script src="libs/tailwind/tailwind.js"></script>
     
     <!-- Babel Standalone (Required for JSX/TSX in browser) -->
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone@7.24.7/babel.min.js" crossorigin="anonymous"></script>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
-    
-    <script>
-      // Defensive shim for process.env
-      window.process = window.process || { env: {} };
-    </script>
 
     <style>
       body {
@@ -141,8 +141,9 @@
 {
   "imports": {
     "react": "https://esm.sh/react@18.3.1",
+    "react-dom": "https://esm.sh/react-dom@18.3.1",
     "react-dom/client": "https://esm.sh/react-dom@18.3.1/client",
-    "react/": "https://esm.sh/react@^19.2.4/"
+    "react/": "https://esm.sh/react@18.3.1/"
   }
 }
 </script>
@@ -1458,7 +1459,11 @@ function doPost(e) {
         };
 
         const root = createRoot(document.getElementById('root'));
-        root.render(<App />);
+        try {
+            root.render(<App />);
+        } catch (e) {
+            document.body.innerHTML = '<div style="color:red;padding:20px;">CRITICAL RENDER ERROR: ' + e.message + '</div>';
+        }
     </script>
 <script type="module" src="/index.tsx"></script>
 </body>
