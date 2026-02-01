@@ -208,7 +208,7 @@ Tecnología de la Información y la Comunicación II;La Web;quiz;¿Qué etiqueta
 Tecnología de la Información y la Comunicación II;La Web;quiz;¿Qué extensión suelen tener los archivos que contienen código HTML?;.web;.html;.htmx;.txt;30;2;
 Tecnología de la Información y la Comunicación II;La Web;quiz;¿Qué etiqueta crea una línea horizontal en HTML?;<hl>;<div>;<hr>;<line>;30;3;
 Tecnología de la Información y la Comunicación II;La Web;quiz;¿Qué característica define principalmente a una página web dinámica?;Solo texto;Interacción del usuario;Contenido fijo;Sin programación;30;2;
-Tecnología de la Información y la Comunicación II;La Web;quiz;¿Qué etiqueta meta se usa para especificar la codificación UTF-8 en HTML?;<set charset="UTF-8">;<charset="UTF-8">;<meta charset="UTF-8">;<encoding="UTF-8">;30;3;
+Tecnología de la Información y la Comunicación II;La Web;quiz;¿Qué etiqueta meta se usa para especificar la codificación UTF-8 en HTML?;<set charset='UTF-8'>;<charset='UTF-8'>;<meta charset='UTF-8'>;<encoding='UTF-8'>;30;3;
 Tecnología de la Información y la Comunicación II;La Web;quiz;¿Qué organización es responsable de desarrollar los estándares de HTML?;Microsoft;Google;W3C;Mozilla;30;3;
 Tecnología de la Información y la Comunicación II;La Web;quiz;¿Cuál de los siguientes es un lenguaje del lado del cliente usado en desarrollo web?;SQL;Python;PHP;JavaScript;30;4;
 Tecnología de la Información y la Comunicación II;La Web;quiz;¿Qué caracteriza a un elemento HTML de nivel de bloque?;Es invisible;Solo contiene texto;Ocupa todo el ancho;Se coloca en línea;30;3;
