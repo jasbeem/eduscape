@@ -199,7 +199,7 @@ Programación y Computación;Base de datos;quiz;¿Cuál es el propósito princip
 Programación y Computación;Base de datos;quiz;¿Cuál es la relación más común en bases de datos?;Uno a muchos;Ninguna relación;Muchos a muchos;Uno a uno;30;1;
 Programación y Computación;Base de datos;quiz;¿Qué objeto proporciona una interfaz amigable para la entrada de datos?;Formularios;Informes;Consultas;Tablas;30;1;
 Programación y Computación;Base de datos;quiz;¿Qué es un Sistema de Gestión de Bases de Datos (SGBD)?;Un lenguaje de programación;Software interfaz;Un protocolo de red;Un tipo de hardware;30;2;
-Tecnología de la Información y la Comunicación II;La Web;quiz;¿Qué etiqueta crea un área de texto multilínea en un formulario HTML?;<text>;<input type="text">;<multiline>;<textarea>;30;4;
+Tecnología de la Información y la Comunicación II;La Web;quiz;¿Qué etiqueta crea un área de texto multilínea en un formulario HTML?;<text>;<input type='text'>;<multiline>;<textarea>;30;4;
 Tecnología de la Información y la Comunicación II;La Web;quiz;¿Para qué se usa la etiqueta <iframe> en HTML?;Mostrar una imagen;Definir un formulario;Incrustar contenido;Crear un marco;30;3;
 Tecnología de la Información y la Comunicación II;La Web;quiz;¿Qué tipo de lista HTML se muestra con viñetas (puntos) por defecto?;No ordenada;Anidada;Ordenada;De definición;30;1;
 Tecnología de la Información y la Comunicación II;La Web;quiz;¿Qué atributo de la etiqueta <a> especifica la dirección del enlace?;url;href;link;src;30;2;
@@ -235,7 +235,7 @@ Tecnología de la Información y la Comunicación II;La Web;quiz;¿Qué valor de
 Tecnología de la Información y la Comunicación II;La Web;quiz;¿Qué elemento HTML5 se usa para el pie de página de un sitio web?;<div>;<footer>;<bottom>;<end>;30;2;
 Tecnología de la Información y la Comunicación II;La Web;quiz;¿Qué etiqueta se utiliza para crear un campo de entrada de texto en un formulario?;<textbox>;<form>;<textarea>;<input>;30;4;
 Tecnología de la Información y la Comunicación II;La Web;quiz;En la arquitectura web, ¿dónde se ejecutan los lenguajes del lado del cliente?;En el navegador;En el servidor;En el router;En la base de datos;30;1;
-Tecnología de la Información y la Comunicación II;La Web;quiz;¿Qué etiqueta crea un botón clicable en un formulario HTML?;<input type="text">;<btn>;<click>;<button>;30;4;
+Tecnología de la Información y la Comunicación II;La Web;quiz;¿Qué etiqueta crea un botón clicable en un formulario HTML?;<input type='text'>;<btn>;<click>;<button>;30;4;
 Tecnología de la Información y la Comunicación II;La Web;quiz;¿Qué tipo de editor se recomienda para escribir código HTML sin formato?;Editor de texto plano;Editor WYSIWYG;Procesador de texto;Hoja de cálculo;30;1;
 Tecnología de la Información y la Comunicación II;La Web;quiz;¿Qué concepto se refiere a que una página web se adapte a diferentes tamaños de pantalla?;Fluido;Estático;Dinámico;Responsive;30;4;
 Tecnología de la Información y la Comunicación II;La Web;quiz;¿Qué etiqueta se utiliza para mostrar texto en cursiva en HTML?;<slant>;<i>;<cursive>;<cite>;30;2;
